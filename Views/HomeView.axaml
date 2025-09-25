@@ -1,0 +1,11 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="CoverLetterGenerator.Views.HomeView"
+             x:DataType="vm:HomeViewModel"
+             xmlns:vm="using:CoverLetterGenerator.ViewModels">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <TextBlock Text="{Binding PageTitle}" FontSize="20"/>
+    </StackPanel>
+
+</UserControl>
