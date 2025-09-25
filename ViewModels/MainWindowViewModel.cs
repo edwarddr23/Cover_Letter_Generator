@@ -7,9 +7,11 @@ public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty]
     private ViewModelBase currentViewModel;
+    private ISettingsService _iSettingsService;
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(ISettingsService iSettingsService)
     {
+        _iSettingsService = iSettingsService;
         CurrentViewModel = new HomeViewModel();
     }
 
@@ -20,5 +22,5 @@ public partial class MainWindowViewModel : ViewModelBase
     private void NavigateGenerateCoverLetter() => CurrentViewModel = new GenerateCoverLetterViewModel();
 
     [RelayCommand]
-    private void NavigateSettings() => CurrentViewModel = new SettingsViewModel();
+    private void NavigateSettings() => CurrentViewModel = new SettingsViewModel(_iSettingsService);
 }

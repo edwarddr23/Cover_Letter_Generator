@@ -6,6 +6,24 @@
 
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
         <TextBlock Text="{Binding PageTitle}" FontSize="20"/>
+
+        <TextBlock>Cover Letter Template Directory:</TextBlock>
+        <TextBox Width="200" Height="30" Text="{Binding TemplatesPath, Mode=TwoWay}" Watermark="Enter an absolute path"/>
+        <Button Command="{Binding SaveSettingsCommand}" Content="Save Settings"/>
+
+        <TextBlock>Current Settings:</TextBlock>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Templates Path:" Margin="0,0,10,5"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SavedSettings.TemplatesPath}"/>
+        </Grid>
     </StackPanel>
 
 </UserControl>

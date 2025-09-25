@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6eku9K4PJUw=",
+  "dgSpecHash": "yc33tHTw3ZM=",
   "success": true,
-  "projectFilePath": "G:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
+  "projectFilePath": "g:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Edward Del Rosario\\.nuget\\packages\\avalonia\\11.3.6\\avalonia.11.3.6.nupkg.sha512",
     "C:\\Users\\Edward Del Rosario\\.nuget\\packages\\avalonia.angle.windows.natives\\2.1.25547.20250602\\avalonia.angle.windows.natives.2.1.25547.20250602.nupkg.sha512",
