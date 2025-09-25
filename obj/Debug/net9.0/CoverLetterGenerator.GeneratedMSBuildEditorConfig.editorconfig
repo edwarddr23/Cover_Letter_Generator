@@ -24,6 +24,9 @@ build_property.EnableCodeStyleSeverity =
 [G:/PersonalProjects/CoverLetterGenerator/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[G:/PersonalProjects/CoverLetterGenerator/Views/GenerateCoverLetterView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [G:/PersonalProjects/CoverLetterGenerator/Views/HomeView.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
