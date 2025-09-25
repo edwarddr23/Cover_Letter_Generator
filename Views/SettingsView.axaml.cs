@@ -2,10 +2,11 @@ using Avalonia.Controls;
 
 namespace CoverLetterGenerator.Views;
 
-public partial class HomeView : UserControl
+public partial class SettingsView : UserControl
 {
-    public HomeView()
+    public SettingsView()
     {
         InitializeComponent();
     }
+
 }

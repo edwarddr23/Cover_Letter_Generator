@@ -20,6 +20,7 @@
     <StackPanel>
         <Button Content="Home" Command="{Binding NavigateHomeCommand}"/>    
         <Button Content="Generate Cover Letter" Command="{Binding NavigateGenerateCoverLetterCommand}"/>    
+        <Button Content="Settings" Command="{Binding NavigateSettingsCommand}"/>    
         <ContentControl Content="{Binding CurrentViewModel}"/>
     </StackPanel>
 

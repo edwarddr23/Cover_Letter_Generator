@@ -18,4 +18,7 @@ public partial class MainWindowViewModel : ViewModelBase
 
     [RelayCommand]
     private void NavigateGenerateCoverLetter() => CurrentViewModel = new GenerateCoverLetterViewModel();
+
+    [RelayCommand]
+    private void NavigateSettings() => CurrentViewModel = new SettingsViewModel();
 }

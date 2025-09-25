@@ -4,5 +4,8 @@ namespace CoverLetterGenerator.Views;
 
 public partial class GenerateCoverLetterView : UserControl
 {
-    public GenerateCoverLetterView() => InitializeComponent();
+    public GenerateCoverLetterView()
+    {
+        InitializeComponent();
+    }
 }
