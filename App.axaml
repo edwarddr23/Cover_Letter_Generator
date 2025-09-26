@@ -11,7 +11,8 @@
     </Application.DataTemplates>
 
     <Application.Resources>
-        <converters:IntToBoolConverter x:Key="IntToBoolConverter"/>    
+        <converters:IntToBoolConverter x:Key="IntToBoolConverter"/>
+        <converters:StringEqualityConverter x:Key="StringEqualityConverter"/>    
     </Application.Resources>
   
     <Application.Styles>

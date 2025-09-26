@@ -1,22 +1,29 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CoverLetterGenerator.Models;
 using CoverLetterGenerator.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 
 namespace CoverLetterGenerator.ViewModels;
 
 public partial class GenerateCoverLetterViewModel : ViewModelBase
 {
-    [ObservableProperty]
-    private ObservableCollection<string> _templateNames;
+    // [ObservableProperty]
+    public ObservableCollection<ChoiceItem> TemplateNames { get; } = new();
 
-    [ObservableProperty]
+    // [ObservableProperty]
     private string _selectedTemplate = string.Empty;
+    public string SelectedTemplate
+    {
+        get => _selectedTemplate;
+        set => SetProperty(ref _selectedTemplate, value);
+    }
 
     [ObservableProperty]
-    private string _jobSource = string.Empty;
+    private string? _jobSource;
 
     [ObservableProperty]
     private string _pageTitle = "Generate Cover Letter";
@@ -26,21 +33,28 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
     public GenerateCoverLetterViewModel(ISettingsService settingsService)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
-        TemplateNames = new ObservableCollection<string>();
+        TemplateNames = new ObservableCollection<ChoiceItem>();
         LoadTemplates();
     }
 
     private void LoadTemplates()
     {
         var settings = _settingsService.LoadSettings();
-        string templatePath = settings.TemplatesPath;
+        string? templatePath = settings.TemplatesPath;
         if (!string.IsNullOrEmpty(templatePath) && Directory.Exists(templatePath))
         {
             TemplateNames.Clear();
             foreach (var dir in Directory.GetDirectories(templatePath))
             {
-                TemplateNames.Add(Path.GetFileName(dir));
+                TemplateNames.Add(new ChoiceItem
+                {
+                    Name = Path.GetFileName(dir),
+                    IsSelected = false,
+                    ParentViewModel = this
+                });
             }
+            // Initialize SelectedTemplate to the first template, if available
+            // SelectedTemplate = TemplateNames.FirstOrDefault();
         }
     }
 

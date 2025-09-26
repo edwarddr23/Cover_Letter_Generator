@@ -15,6 +15,6 @@ public partial class MainWindow : Window
         InitializeComponent();
         var settingsService = new SettingsService();
         var dialogService = new DialogService(this);
-        DataContext = new MainWindowViewModel(settingsService, dialogService);
+        this.DataContext = new MainWindowViewModel(settingsService, dialogService);
     }
 }

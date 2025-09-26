@@ -5,6 +5,7 @@ G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.G
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.AssemblyInfoInputs.cache
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.AssemblyInfo.cs
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.csproj.CoreCompileInputs.cache
+G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.sourcelink.json
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.dll
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\refint\CoverLetterGenerator.dll
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.pdb
@@ -72,4 +73,3 @@ G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\runtimes\win-x86\nativ
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLet.7524C98D.Up2Date
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.genruntimeconfig.cache
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\ref\CoverLetterGenerator.dll
-G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.sourcelink.json

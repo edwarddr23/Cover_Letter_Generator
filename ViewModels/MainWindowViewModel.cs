@@ -21,7 +21,6 @@ public partial class MainWindowViewModel : ViewModelBase
         CurrentViewModel = _homeViewModel;
     }
 
-
     [RelayCommand]
     private void NavigateToHome()
     {
