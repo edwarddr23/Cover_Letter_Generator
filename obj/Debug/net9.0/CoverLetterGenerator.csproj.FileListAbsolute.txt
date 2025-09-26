@@ -73,3 +73,6 @@ G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\runtimes\win-x86\nativ
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLet.7524C98D.Up2Date
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\CoverLetterGenerator.genruntimeconfig.cache
 G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\ref\CoverLetterGenerator.dll
+G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\DocumentFormat.OpenXml.dll
+G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\DocumentFormat.OpenXml.Framework.dll
+G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\System.IO.Packaging.dll

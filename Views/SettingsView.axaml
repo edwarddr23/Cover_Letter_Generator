@@ -21,6 +21,14 @@
         <TextBlock>Output Directory:</TextBlock>
         <TextBox Width="200" Height="30" Text="{Binding OutputPath, Mode=TwoWay}" Watermark="Enter an absolute path"/>
 
+        <!-- First Name Input -->
+        <TextBlock>First Name:</TextBlock>
+        <TextBox Width="200" Height="30" Text="{Binding FirstName, Mode=TwoWay}" Watermark="First name"/>
+
+        <!-- Last Name Input -->
+        <TextBlock>Last Name:</TextBlock>
+        <TextBox Width="200" Height="30" Text="{Binding LastName, Mode=TwoWay}" Watermark="Last name"/>
+
         <!-- Validation Errors -->
         <StackPanel IsVisible="{Binding Errors.Count, Converter={StaticResource IntToBoolConverter}}" Spacing="5">
             <TextBlock Text="Validation Errors:" Foreground="Red"/>
@@ -35,7 +43,7 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
-
+        
         <!-- Warnings -->
         <StackPanel IsVisible="{Binding Warnings.Count, Converter={StaticResource IntToBoolConverter}}" Spacing="5">
             <TextBlock Text="Warnings:" Foreground="Orange"/>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj": {}
+    "g:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj": {}
   },
   "projects": {
-    "G:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj": {
+    "g:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
+        "projectUniqueName": "g:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
         "projectName": "CoverLetterGenerator",
-        "projectPath": "G:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
+        "projectPath": "g:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
         "packagesPath": "C:\\Users\\Edward Del Rosario\\.nuget\\packages\\",
-        "outputPath": "G:\\PersonalProjects\\CoverLetterGenerator\\obj\\",
+        "outputPath": "g:\\PersonalProjects\\CoverLetterGenerator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -73,6 +73,10 @@
             "CommunityToolkit.Mvvm": {
               "target": "Package",
               "version": "[8.2.1, )"
+            },
+            "DocumentFormat.OpenXml": {
+              "target": "Package",
+              "version": "[3.3.0, )"
             }
           },
           "imports": [

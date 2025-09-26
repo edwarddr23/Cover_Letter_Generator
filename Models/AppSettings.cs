@@ -4,4 +4,6 @@ public class AppSettings
 {
     public string TemplatesPath { get; set; } = string.Empty;
     public string OutputPath { get; set; } = string.Empty;
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
 }

@@ -2,10 +2,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CoverLetterGenerator.Models;
 using CoverLetterGenerator.Services;
+using DocumentFormat.OpenXml.Bibliography;
+using DocumentFormat.OpenXml.Office2016.Drawing.Command;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CoverLetterGenerator.ViewModels;
@@ -20,6 +23,10 @@ public partial class SettingsViewModel : ViewModelBase
 
     [ObservableProperty]
     private string _outputPath = string.Empty;
+    [ObservableProperty]
+    private string _firstName = string.Empty;
+    [ObservableProperty]
+    private string _lastName = string.Empty;
 
     [ObservableProperty]
     private ObservableCollection<KeyValueItem> _errors = new();
@@ -41,15 +48,39 @@ public partial class SettingsViewModel : ViewModelBase
 
     private void LoadSettings()
     {
-        var settings = _settingsService.LoadSettings();
-        TemplatesPath = settings.TemplatesPath;
-        OutputPath = settings.OutputPath;
         Errors.Clear();
         Warnings.Clear();
-
         SettingsList.Clear();
-        SettingsList.Add(new KeyValueItem { Key = "TemplatesPath", Value = TemplatesPath });
-        SettingsList.Add(new KeyValueItem { Key = "OutputPath", Value = OutputPath });
+        var settings = _settingsService.LoadSettings();
+        // TemplatesPath = settings.TemplatesPath;
+        // OutputPath = settings.OutputPath;
+
+        // Populate our local variables with what's saved in settings.
+        var targetProps = this.GetType().GetProperties();
+        foreach (var settProp in settings.GetType().GetProperties())
+        {
+            var target = targetProps.FirstOrDefault(p =>
+                p.Name == settProp.Name &&
+                p.PropertyType.IsAssignableFrom(settProp.PropertyType) &&
+                p.CanWrite
+            );
+            if (target != null)
+            {
+                var value = settProp.GetValue(settings);
+                target.SetValue(this, value);
+            }
+        }
+
+        // Populate the saved sattings list.
+        foreach (var prop in settings.GetType().GetProperties())
+        {
+            object? value = prop.GetValue(settings);
+            SettingsList.Add(new KeyValueItem
+            {
+                Key = prop.Name,
+                Value = value?.ToString() ?? string.Empty
+            });
+        }
     }
 
     [RelayCommand]
@@ -57,19 +88,16 @@ public partial class SettingsViewModel : ViewModelBase
     {
         Errors.Clear();
         Warnings.Clear();
-        bool isValid = true;
         bool outputPathExists = true;
 
         // Validate TemplatesPath
         if (string.IsNullOrWhiteSpace(TemplatesPath))
         {
-            Errors.Add(new KeyValueItem { Key = "TemplatesPath", Value = "Template directory is required." });
-            isValid = false;
+            Errors.Add(new KeyValueItem { Key = "TemplatesPath", Value = "Template directory must be specified." });
         }
         else if (!Path.IsPathFullyQualified(TemplatesPath))
         {
             Errors.Add(new KeyValueItem { Key = "TemplatesPath", Value = "Template directory must be an absolute path." });
-            isValid = false;
         }
         else
         {
@@ -79,26 +107,22 @@ public partial class SettingsViewModel : ViewModelBase
                 if (!Directory.Exists(TemplatesPath))
                 {
                     Errors.Add(new KeyValueItem { Key = "TemplatesPath", Value = "Template directory does not exist." });
-                    isValid = false;
                 }
             }
             catch (Exception ex)
             {
                 Errors.Add(new KeyValueItem { Key = "TemplatesPath", Value = $"Invalid path format: {ex.Message}" });
-                isValid = false;
             }
         }
 
         // Validate OutputPath
         if (string.IsNullOrWhiteSpace(OutputPath))
         {
-            Errors.Add(new KeyValueItem { Key = "OutputPath", Value = "Output directory cannot be empty." });
-            isValid = false;
+            Errors.Add(new KeyValueItem { Key = "OutputPath", Value = "Output directory is not specified." });
         }
         else if (!Path.IsPathFullyQualified(OutputPath))
         {
             Errors.Add(new KeyValueItem { Key = "OutputPath", Value = "Output directory must be an absolute path." });
-            isValid = false;
         }
         else
         {
@@ -114,11 +138,30 @@ public partial class SettingsViewModel : ViewModelBase
             catch (Exception ex)
             {
                 Errors.Add(new KeyValueItem { Key = "OutputPath", Value = $"Invalid path format: {ex.Message}" });
-                isValid = false;
             }
         }
 
-        if (!isValid)
+        // Validate first name.
+        if (string.IsNullOrWhiteSpace(FirstName))
+        {
+            Errors.Add(new KeyValueItem
+            {
+                Key = "FirstName",
+                Value = "First Name must be specified"
+            });
+        }
+
+        // Validate last name.
+        if (string.IsNullOrWhiteSpace(LastName))
+        {
+            Errors.Add(new KeyValueItem
+            {
+                Key = "LastName",
+                Value = "Last Name must be specified"
+            });
+        }
+
+        if (Errors.Count > 0)
         {
             return;
         }
@@ -145,11 +188,22 @@ public partial class SettingsViewModel : ViewModelBase
             }
         }
 
-        var newSettings = new AppSettings
+        // Populate the saved sattings list.
+        var newSettings = new AppSettings();
+        var targetProps = this.GetType().GetProperties();
+        foreach (var newSettProp in newSettings.GetType().GetProperties())
         {
-            TemplatesPath = Path.GetFullPath(TemplatesPath),
-            OutputPath = Path.GetFullPath(OutputPath)
-        };
+            var sourceProp = targetProps.FirstOrDefault(p =>
+                p.Name == newSettProp.Name &&
+                newSettProp.PropertyType.IsAssignableFrom(newSettProp.PropertyType) &&
+                p.CanRead
+            );
+            if (sourceProp != null)
+            {
+                var value = sourceProp.GetValue(this);
+                newSettProp.SetValue(newSettings, value);
+            }
+        }
 
         Debug.WriteLine($"Saving settings: TemplatesPath={newSettings.TemplatesPath}, OutputPath={newSettings.OutputPath}");
         _settingsService.SaveSettings(newSettings);

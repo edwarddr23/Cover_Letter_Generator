@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoverLetterGenerator")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+806c870a962ec74476acc76b1836c7f7cd3f71c8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+29c35bd5406c6b416208a245a06f83db7d73f193")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoverLetterGenerator")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoverLetterGenerator")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

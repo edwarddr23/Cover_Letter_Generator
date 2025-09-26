@@ -6,6 +6,10 @@
              x:Class="CoverLetterGenerator.Views.GenerateCoverLetterView"
              x:DataType="vm:GenerateCoverLetterViewModel">
 
+    <UserControl.Resources>
+        <conv:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter"/>
+    </UserControl.Resources>
+
     <Design.DataContext>
         <vm:GenerateCoverLetterViewModel/>
     </Design.DataContext>
@@ -13,8 +17,8 @@
     <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
         <TextBlock Text="{Binding PageTitle}" FontSize="20"/>
 
-        <!-- Templates Selection -->
-        <TextBlock>Templates:</TextBlock>
+        <!-- Template Names Selection -->
+        <TextBlock>Template Names:</TextBlock>
         <ItemsControl ItemsSource="{Binding TemplateNames}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="models:ChoiceItem">
@@ -25,15 +29,53 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <!-- Fix AVLN2000: Ensure proper binding -->
-        <TextBlock Text="{Binding SelectedTemplate, StringFormat='Selected: {0}'}" Margin="0,10,0,0"/>
-        
+        <!-- Template Document Combo Box -->
+        <StackPanel>
+            <TextBlock Text="Template Documents:"/>
+            <ComboBox
+                x:Name="DocumentsComboBox"
+                ItemsSource="{Binding TemplateDocuments}"
+                SelectedItem="{Binding SelectedDocument, Mode=TwoWay}"
+            />
+        </StackPanel>
+
         <!-- Job Source Input -->
         <TextBlock>Job Source:</TextBlock>
         <TextBox Width="200" Text="{Binding JobSource, Mode=TwoWay}" Watermark="Enter job source"/>
 
+        <!-- Company Name Input -->
+        <TextBlock>Company Name:</TextBlock>
+        <TextBox Width="200" Text="{Binding CompanyName, Mode=TwoWay}" Watermark="Enter company name"/>
+
+        <!-- Job Title Input -->
+        <TextBlock>Job Title:</TextBlock>
+        <TextBox Width="200" Text="{Binding JobTitle, Mode=TwoWay}" Watermark="Enter job title"/>
+
+        <!-- Validation Errors -->
+        <StackPanel IsVisible="{Binding Errors.Count, Converter={StaticResource IntToBoolConverter}}}" Spacing="5">
+            <TextBlock Text="Validation Errors:" Foreground="Red"/>
+            <ItemsControl ItemsSource="{Binding Errors}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:KeyValueItem">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="{Binding Key}" Foreground="Red" FontSize="12"/>
+                            <TextBlock Text="{Binding Value}" Foreground="Red" FontSize="12" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
         <!-- Generate Button -->
         <Button Command="{Binding GenerateCoverLetterCommand}" Content="Generate Cover Letter" Margin="0,10,0,0"/>
+    
+        <!-- Success Message -->
+        <TextBlock Text="{Binding GenerateSuccessfulMessage}" 
+           Foreground="Green"
+           FontWeight="Bold"
+           IsVisible="{Binding GenerateSuccessfulMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
+        />
+
     </StackPanel>
     
 </UserControl>
