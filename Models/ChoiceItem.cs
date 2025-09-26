@@ -6,9 +6,12 @@ namespace CoverLetterGenerator.Models;
 public partial class ChoiceItem : ObservableObject
 {
     [ObservableProperty]
-    public string _name = string.Empty;
+    private string _name = string.Empty;
+
     [ObservableProperty]
     private bool _isSelected;
+
+    public GenerateCoverLetterViewModel? ParentViewModel { get; set; }
 
     partial void OnIsSelectedChanged(bool value)
     {
@@ -17,6 +20,4 @@ public partial class ChoiceItem : ObservableObject
             ParentViewModel.SelectedTemplate = Name;
         }
     }
-
-     public GenerateCoverLetterViewModel? ParentViewModel { get; set; }
 }

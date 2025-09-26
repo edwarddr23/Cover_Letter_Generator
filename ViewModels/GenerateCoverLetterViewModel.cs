@@ -30,10 +30,15 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
 
     private readonly ISettingsService _settingsService;
 
+    private void SettingsService_SettingsChanged(object? sender, EventArgs e)
+    {
+        LoadTemplates();
+    }
+
     public GenerateCoverLetterViewModel(ISettingsService settingsService)
     {
         _settingsService = settingsService ?? throw new ArgumentNullException(nameof(settingsService));
-        TemplateNames = new ObservableCollection<ChoiceItem>();
+        _settingsService.SettingsChanged += SettingsService_SettingsChanged;
         LoadTemplates();
     }
 
@@ -53,8 +58,6 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
                     ParentViewModel = this
                 });
             }
-            // Initialize SelectedTemplate to the first template, if available
-            // SelectedTemplate = TemplateNames.FirstOrDefault();
         }
     }
 

@@ -10,6 +10,8 @@ public class SettingsService : ISettingsService
 {
     private readonly string _settingsFilePath;
 
+    public event EventHandler? SettingsChanged;
+
     public SettingsService()
     {
         var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -44,6 +46,7 @@ public class SettingsService : ISettingsService
         {
             var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(_settingsFilePath, json);
+            SettingsChanged?.Invoke(this, EventArgs.Empty);
         }
         catch
         {
