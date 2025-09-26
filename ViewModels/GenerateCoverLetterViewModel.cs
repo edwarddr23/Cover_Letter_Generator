@@ -13,10 +13,10 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
     private ObservableCollection<string> _templateNames;
 
     [ObservableProperty]
-    private string _selectedTemplate;
+    private string _selectedTemplate = string.Empty;
 
     [ObservableProperty]
-    private string _jobSource;
+    private string _jobSource = string.Empty;
 
     [ObservableProperty]
     private string _pageTitle = "Generate Cover Letter";
