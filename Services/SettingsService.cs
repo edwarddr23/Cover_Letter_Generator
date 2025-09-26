@@ -1,35 +1,40 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using CoverLetterGenerator.Models;
 using System.IO;
 using System.Text.Json;
-using Avalonia.Metadata;
+
+namespace CoverLetterGenerator.Services;
 
 public class SettingsService : ISettingsService
 {
-    private readonly string _settingsPath;
-
-    public SettingsService()
-    {
-        var appDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CoverLetterGenerator");
-        Directory.CreateDirectory(appDataFolder);
-
-        _settingsPath = Path.Combine(appDataFolder, "settings.json");
-    }
-    public void SaveSettings(AppSettings settings)
-    {
-        var settings_json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
-        File.WriteAllText(_settingsPath, settings_json);
-        Debug.WriteLine("[SettingsService] Saved settings successfully!");
-    }
+    private readonly string _settingsFilePath = Path.Combine(Directory.GetCurrentDirectory(), "settings.json");
 
     public AppSettings LoadSettings()
     {
-        if (!File.Exists(_settingsPath))
+        try
         {
-            return new AppSettings();
+            if (File.Exists(_settingsFilePath))
+            {
+                var json = File.ReadAllText(_settingsFilePath);
+                return JsonSerializer.Deserialize<AppSettings>(json) ?? new AppSettings();
+            }
         }
-        var json = File.ReadAllText(_settingsPath);
-        return JsonSerializer.Deserialize<AppSettings>(json) ?? new AppSettings();
+        catch
+        {
+            // Log error if needed
+        }
+        return new AppSettings();
+    }
+
+    public void SaveSettings(AppSettings settings)
+    {
+        try
+        {
+            var json = JsonSerializer.Serialize(settings, new JsonSerializerOptions { WriteIndented = true });
+            File.WriteAllText(_settingsFilePath, json);
+        }
+        catch
+        {
+            // Log error if needed
+        }
     }
 }

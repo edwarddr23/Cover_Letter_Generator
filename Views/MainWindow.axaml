@@ -9,19 +9,14 @@
         Icon="/Assets/avalonia-logo.ico"
         Title="CoverLetterGenerator">
 
-    <!-- <Design.DataContext> -->
-        <!-- This only sets the DataContext for the previewer in an IDE,
-             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
-        <!-- <vm:MainWindowViewModel/> -->
-    <!-- </Design.DataContext> -->
-
-    <!-- <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/> -->
-
-    <StackPanel>
-        <Button Content="Home" Command="{Binding NavigateHomeCommand}"/>    
-        <Button Content="Generate Cover Letter" Command="{Binding NavigateGenerateCoverLetterCommand}"/>    
-        <Button Content="Settings" Command="{Binding NavigateSettingsCommand}"/>    
+    <Design.DataContext>
+        <vm:MainWindowViewModel/>
+    </Design.DataContext>
+    <StackPanel Orientation="Vertical" Spacing="10">
+        <Button Content="Home" Command="{Binding NavigateToHomeCommand}"/>
+        <Button Content="Generate Cover Letter" Command="{Binding NavigateToGenerateCoverLetterCommand}"/>
+        <Button Content="Settings" Command="{Binding NavigateToSettingsCommand}"/>
         <ContentControl Content="{Binding CurrentViewModel}"/>
     </StackPanel>
-
+    
 </Window>

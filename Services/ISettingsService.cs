@@ -1,5 +1,9 @@
+using CoverLetterGenerator.Models;
+
+namespace CoverLetterGenerator.Services;
+
 public interface ISettingsService
 {
-    void SaveSettings(AppSettings settings);
     AppSettings LoadSettings();
+    void SaveSettings(AppSettings settings);
 }

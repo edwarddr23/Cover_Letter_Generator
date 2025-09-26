@@ -6,6 +6,8 @@ using System.Linq;
 using Avalonia.Markup.Xaml;
 using CoverLetterGenerator.ViewModels;
 using CoverLetterGenerator.Views;
+using CoverLetterGenerator.Services;
+using Avalonia.Controls;
 
 namespace CoverLetterGenerator;
 
@@ -20,27 +22,28 @@ public partial class App : Application
     {
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            // Avoid duplicate validations from both Avalonia and the CommunityToolkit. 
-            // More info: https://docs.avaloniaui.net/docs/guides/development-guides/data-validation#manage-validationplugins
             DisableAvaloniaDataAnnotationValidation();
+
             var settingsService = new SettingsService();
-            var mainVM = new MainWindowViewModel(settingsService);
+            var dialogService   = new DialogService(desktop.MainWindow ?? new Window());
+
+            var mainVM = new MainWindowViewModel(settingsService, dialogService);
+
             desktop.MainWindow = new MainWindow
             {
-                DataContext = mainVM,
+                DataContext = mainVM
             };
         }
 
         base.OnFrameworkInitializationCompleted();
     }
 
+
     private void DisableAvaloniaDataAnnotationValidation()
     {
-        // Get an array of plugins to remove
         var dataValidationPluginsToRemove =
             BindingPlugins.DataValidators.OfType<DataAnnotationsValidationPlugin>().ToArray();
 
-        // remove each entry found
         foreach (var plugin in dataValidationPluginsToRemove)
         {
             BindingPlugins.DataValidators.Remove(plugin);

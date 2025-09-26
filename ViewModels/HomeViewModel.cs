@@ -1,6 +1,9 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace CoverLetterGenerator.ViewModels;
 
 public partial class HomeViewModel : ViewModelBase
 {
-    public string PageTitle => "Home page!";
+    [ObservableProperty]
+    private string _pageTitle = "Home Page";
 }

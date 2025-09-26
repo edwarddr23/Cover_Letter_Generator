@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "g:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj": {}
+    "G:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj": {}
   },
   "projects": {
-    "g:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj": {
+    "G:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "g:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
+        "projectUniqueName": "G:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
         "projectName": "CoverLetterGenerator",
-        "projectPath": "g:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
+        "projectPath": "G:\\PersonalProjects\\CoverLetterGenerator\\CoverLetterGenerator.csproj",
         "packagesPath": "C:\\Users\\Edward Del Rosario\\.nuget\\packages\\",
-        "outputPath": "g:\\PersonalProjects\\CoverLetterGenerator\\obj\\",
+        "outputPath": "G:\\PersonalProjects\\CoverLetterGenerator\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

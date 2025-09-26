@@ -1,29 +1,70 @@
 <UserControl xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CoverLetterGenerator.ViewModels"
+             xmlns:models="using:CoverLetterGenerator.Models"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converters="using:CoverLetterGenerator.Converters"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="CoverLetterGenerator.Views.SettingsView"
-             x:DataType="vm:SettingsViewModel"
-             xmlns:vm="using:CoverLetterGenerator.ViewModels">
-
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+             x:DataType="vm:SettingsViewModel">
+    <Design.DataContext>
+        <vm:SettingsViewModel/>
+    </Design.DataContext>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
         <TextBlock Text="{Binding PageTitle}" FontSize="20"/>
-
-        <TextBlock>Cover Letter Template Directory:</TextBlock>
+        <!-- Template Directory Input -->
+        <TextBlock>Template Directory:</TextBlock>
         <TextBox Width="200" Height="30" Text="{Binding TemplatesPath, Mode=TwoWay}" Watermark="Enter an absolute path"/>
+        
+        <!-- Output Directory Input -->
+        <TextBlock>Output Directory:</TextBlock>
+        <TextBox Width="200" Height="30" Text="{Binding OutputPath, Mode=TwoWay}" Watermark="Enter an absolute path"/>
+
+        <!-- Validation Errors -->
+        <StackPanel IsVisible="{Binding Errors.Count, Converter={StaticResource IntToBoolConverter}}" Spacing="5">
+            <TextBlock Text="Validation Errors:" Foreground="Red"/>
+            <ItemsControl ItemsSource="{Binding Errors}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:KeyValueItem">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="{Binding Key}" Foreground="Red" FontSize="12"/>
+                            <TextBlock Text="{Binding Value}" Foreground="Red" FontSize="12" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!-- Warnings -->
+        <StackPanel IsVisible="{Binding Warnings.Count, Converter={StaticResource IntToBoolConverter}}" Spacing="5">
+            <TextBlock Text="Warnings:" Foreground="Orange"/>
+            <ItemsControl ItemsSource="{Binding Warnings}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="models:KeyValueItem">
+                        <StackPanel Orientation="Horizontal" Spacing="10">
+                            <TextBlock Text="{Binding Key}" Foreground="Orange" FontSize="12"/>
+                            <TextBlock Text="{Binding Value}" Foreground="Orange" FontSize="12" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!-- Save Button -->
         <Button Command="{Binding SaveSettingsCommand}" Content="Save Settings"/>
-
+        
+        <!-- Current Settings -->
         <TextBlock>Current Settings:</TextBlock>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Templates Path:" Margin="0,0,10,5"/>
-            <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SavedSettings.TemplatesPath}"/>
-        </Grid>
+        <ItemsControl ItemsSource="{Binding SettingsList}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="models:KeyValueItem">
+                    <StackPanel Orientation="Horizontal" Spacing="10">
+                        <TextBlock Text="{Binding Key}"/>
+                        <TextBlock Text="{Binding Value}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
-
 </UserControl>
