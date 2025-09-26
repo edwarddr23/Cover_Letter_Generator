@@ -1,4 +1,6 @@
 using CoverLetterGenerator.Models;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.Json;
 
@@ -6,7 +8,18 @@ namespace CoverLetterGenerator.Services;
 
 public class SettingsService : ISettingsService
 {
-    private readonly string _settingsFilePath = Path.Combine(Directory.GetCurrentDirectory(), "settings.json");
+    private readonly string _settingsFilePath;
+
+    public SettingsService()
+    {
+        var appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        var appFolder = Path.Combine(appData, "CoverLetterGenerator");
+
+        if (!Directory.Exists(appFolder))
+            Directory.CreateDirectory(appFolder);
+
+        _settingsFilePath = Path.Combine(appFolder, "settings.json");
+    }
 
     public AppSettings LoadSettings()
     {
@@ -20,7 +33,7 @@ public class SettingsService : ISettingsService
         }
         catch
         {
-            // Log error if needed
+            Debug.WriteLine("Failed to load settings.");
         }
         return new AppSettings();
     }
@@ -34,7 +47,7 @@ public class SettingsService : ISettingsService
         }
         catch
         {
-            // Log error if needed
+            Debug.WriteLine("Failed to save settings.");
         }
     }
 }
