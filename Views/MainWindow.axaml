@@ -12,11 +12,102 @@
     <Design.DataContext>
         <vm:MainWindowViewModel/>
     </Design.DataContext>
-    <StackPanel Orientation="Vertical" Spacing="10">
-        <Button Content="Home" Command="{Binding NavigateToHomeCommand}"/>
-        <Button Content="Generate Cover Letter" Command="{Binding NavigateToGenerateCoverLetterCommand}"/>
-        <Button Content="Settings" Command="{Binding NavigateToSettingsCommand}"/>
-        <ContentControl Content="{Binding CurrentViewModel}"/>
-    </StackPanel>
+
+    <Window.Styles>
+        <!-- Style for ListBoxItem to match sidebar background and change on hover -->
+        <Style Selector="ListBoxItem">
+            <Setter Property="Background" Value="#1E1E1E"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+        <Style Selector="ListBoxItem:pointerover">
+            <Setter Property="Background" Value="#2A2A2A"/> <!-- Slightly lighter shade on hover -->
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Styles>
+
+    <SplitView
+        IsPaneOpen="{Binding IsPaneOpen}"
+        OpenPaneLength="320"
+        CompactPaneLength="80"
+        DisplayMode="CompactInline"
+        PaneBackground="#1E1E1E"
+    >
+        <SplitView.Pane>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button
+                    Grid.Row="0"
+                    Command="{Binding OpenPaneCommand}"
+                    Background="#1E1E1E"
+                    HorizontalAlignment="Left"
+                    Padding="0"
+                    Width="80"
+                    Height="80"
+                >
+                    <PathIcon
+                        Foreground="White"
+                        Data="{StaticResource line_horizontal_3_regular}"
+                        Width="35"
+                        Height="35"
+                    />    
+                </Button>
+                <ListBox
+                    Grid.Row="1"
+                    Background="#1E1E1E"
+                    Foreground="White"
+                    Padding="0"
+                    Margin="0"
+                    ItemsSource="{Binding MenuEntries}"
+                    SelectedItem="{Binding SelectedMenuEntry}"
+                >
+                    <!-- <ListBoxItem Padding="10" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Center">
+                            <Viewbox Width="30" Height="30">
+                                <PathIcon Data="{StaticResource home_regular}"/>
+                            </Viewbox>
+                            <TextBlock Margin="20,0,0,0" FontSize="20" VerticalAlignment="Center">Home</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem>
+                    <ListBoxItem Padding="10" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Center">
+                            <Viewbox Width="30" Height="30">
+                                <PathIcon Data="{StaticResource home_regular}"/>
+                            </Viewbox>
+                            <TextBlock Margin="20,0,0,0" FontSize="20" VerticalAlignment="Center">Generate Letter</TextBlock>
+                        </StackPanel>
+                    </ListBoxItem> -->
+                    <ListBox.ItemTemplate>
+                        <DataTemplate DataType="vm:ListItemTemplate">
+                            <StackPanel
+                                Orientation="Horizontal"
+                                Margin="0"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Left"
+                            >
+                                <Viewbox Width="43" Height="43" Margin="6,10,0,0">
+                                    <PathIcon Data="{Binding Icon}"/>
+                                </Viewbox>
+                                <TextBlock
+                                    Margin="20,10,0,0"
+                                    FontSize="20"
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Label}"
+                                />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </SplitView.Pane>
+
+        <SplitView.Content>
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                <ContentControl Background="#2d2d2d" Content="{Binding CurrentViewModel}"/>
+            </ScrollViewer>
+        </SplitView.Content>
+    </SplitView>
     
 </Window>

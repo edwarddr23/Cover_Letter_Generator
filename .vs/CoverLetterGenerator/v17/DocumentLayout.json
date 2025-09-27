@@ -3,6 +3,18 @@
   "WorkspaceRootPath": "G:\\PersonalProjects\\CoverLetterGenerator\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{723C1FBC-70B3-156F-C924-2A8AC1DC1D45}|CoverLetterGenerator.csproj|g:\\personalprojects\\coverlettergenerator\\views\\mainwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
+      "RelativeMoniker": "D:0:0:{723C1FBC-70B3-156F-C924-2A8AC1DC1D45}|CoverLetterGenerator.csproj|solutionrelative:views\\mainwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{723C1FBC-70B3-156F-C924-2A8AC1DC1D45}|CoverLetterGenerator.csproj|g:\\personalprojects\\coverlettergenerator\\assets\\iconstyles.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
+      "RelativeMoniker": "D:0:0:{723C1FBC-70B3-156F-C924-2A8AC1DC1D45}|CoverLetterGenerator.csproj|solutionrelative:assets\\iconstyles.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{723C1FBC-70B3-156F-C924-2A8AC1DC1D45}|CoverLetterGenerator.csproj|g:\\personalprojects\\coverlettergenerator\\app.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
+      "RelativeMoniker": "D:0:0:{723C1FBC-70B3-156F-C924-2A8AC1DC1D45}|CoverLetterGenerator.csproj|solutionrelative:app.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{723C1FBC-70B3-156F-C924-2A8AC1DC1D45}|CoverLetterGenerator.csproj|g:\\personalprojects\\coverlettergenerator\\views\\settingsview.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
       "RelativeMoniker": "D:0:0:{723C1FBC-70B3-156F-C924-2A8AC1DC1D45}|CoverLetterGenerator.csproj|solutionrelative:views\\settingsview.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
     }
@@ -19,6 +31,42 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "MainWindow.axaml",
+              "DocumentMoniker": "G:\\PersonalProjects\\CoverLetterGenerator\\Views\\MainWindow.axaml",
+              "RelativeDocumentMoniker": "Views\\MainWindow.axaml",
+              "ToolTip": "G:\\PersonalProjects\\CoverLetterGenerator\\Views\\MainWindow.axaml",
+              "RelativeToolTip": "Views\\MainWindow.axaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-09-26T18:24:18.449Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "App.axaml",
+              "DocumentMoniker": "G:\\PersonalProjects\\CoverLetterGenerator\\App.axaml",
+              "RelativeDocumentMoniker": "App.axaml",
+              "ToolTip": "G:\\PersonalProjects\\CoverLetterGenerator\\App.axaml",
+              "RelativeToolTip": "App.axaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-09-26T18:19:28.598Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IconStyles.axaml",
+              "DocumentMoniker": "G:\\PersonalProjects\\CoverLetterGenerator\\Assets\\IconStyles.axaml",
+              "RelativeDocumentMoniker": "Assets\\IconStyles.axaml",
+              "ToolTip": "G:\\PersonalProjects\\CoverLetterGenerator\\Assets\\IconStyles.axaml",
+              "RelativeToolTip": "Assets\\IconStyles.axaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-09-26T18:15:36.279Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "SettingsView.axaml",
               "DocumentMoniker": "G:\\PersonalProjects\\CoverLetterGenerator\\Views\\SettingsView.axaml",
               "RelativeDocumentMoniker": "Views\\SettingsView.axaml",

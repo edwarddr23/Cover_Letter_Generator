@@ -11,23 +11,25 @@
     <Design.DataContext>
         <vm:SettingsViewModel/>
     </Design.DataContext>
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-        <TextBlock Text="{Binding PageTitle}" FontSize="20"/>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="700" MinWidth="500" Margin="50,0,50,0">
+        <!-- Page Title -->
+        <TextBlock Text="{Binding PageTitle}" HorizontalAlignment="Center" FontSize="40"/>
+        
         <!-- Template Directory Input -->
         <TextBlock>Template Directory:</TextBlock>
-        <TextBox Width="200" Height="30" Text="{Binding TemplatesPath, Mode=TwoWay}" Watermark="Enter an absolute path"/>
+        <TextBox Text="{Binding TemplatesPath, Mode=TwoWay}" Watermark="Enter an absolute path"/>
         
         <!-- Output Directory Input -->
         <TextBlock>Output Directory:</TextBlock>
-        <TextBox Width="200" Height="30" Text="{Binding OutputPath, Mode=TwoWay}" Watermark="Enter an absolute path"/>
+        <TextBox Text="{Binding OutputPath, Mode=TwoWay}" Watermark="Enter an absolute path"/>
 
         <!-- First Name Input -->
         <TextBlock>First Name:</TextBlock>
-        <TextBox Width="200" Height="30" Text="{Binding FirstName, Mode=TwoWay}" Watermark="First name"/>
+        <TextBox Text="{Binding FirstName, Mode=TwoWay}" Watermark="First name"/>
 
         <!-- Last Name Input -->
         <TextBlock>Last Name:</TextBlock>
-        <TextBox Width="200" Height="30" Text="{Binding LastName, Mode=TwoWay}" Watermark="Last name"/>
+        <TextBox Text="{Binding LastName, Mode=TwoWay}" Watermark="Last name"/>
 
         <!-- Validation Errors -->
         <StackPanel IsVisible="{Binding Errors.Count, Converter={StaticResource IntToBoolConverter}}" Spacing="5">
@@ -36,8 +38,8 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="models:KeyValueItem">
                         <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="{Binding Key}" Foreground="Red" FontSize="12"/>
-                            <TextBlock Text="{Binding Value}" Foreground="Red" FontSize="12" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding Key}" Foreground="Red"/>
+                            <TextBlock Text="{Binding Value}" Foreground="Red" TextWrapping="Wrap"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -60,19 +62,37 @@
         </StackPanel>
 
         <!-- Save Button -->
-        <Button Command="{Binding SaveSettingsCommand}" Content="Save Settings"/>
+        <Button Command="{Binding SaveSettingsCommand}" Content="Save Settings" HorizontalAlignment="Center" Padding="30,10,30,10" FontSize="15"/>
         
         <!-- Current Settings -->
-        <TextBlock>Current Settings:</TextBlock>
-        <ItemsControl ItemsSource="{Binding SettingsList}">
-            <ItemsControl.ItemTemplate>
-                <DataTemplate DataType="models:KeyValueItem">
-                    <StackPanel Orientation="Horizontal" Spacing="10">
-                        <TextBlock Text="{Binding Key}"/>
-                        <TextBlock Text="{Binding Value}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <Border Background="#1E1E1E" CornerRadius="10" Padding="20">
+            <StackPanel Spacing="10">
+                <TextBlock HorizontalAlignment="Center">Current Settings:</TextBlock>
+                <ItemsControl ItemsSource="{Binding SettingsList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="models:KeyValueItem">
+                            <Grid Margin="0,4,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="115"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock
+                                    Grid.Column="0"
+                                    Text="{Binding Key, StringFormat='{}{0}:'}"
+                                    VerticalAlignment="Center"
+                                />
+                                <TextBox
+                                    Grid.Column="1"
+                                    Text="{Binding Value}"
+                                    TextWrapping="NoWrap"
+                                    IsReadOnly="True"
+                                    VerticalAlignment="Center"
+                                />
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </Border>
     </StackPanel>
 </UserControl>

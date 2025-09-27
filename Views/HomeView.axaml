@@ -4,8 +4,28 @@
              x:DataType="vm:HomeViewModel"
              xmlns:vm="using:CoverLetterGenerator.ViewModels">
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-        <TextBlock Text="{Binding PageTitle}" FontSize="20"/>
+    <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="700" MinWidth="500" Margin="50,0,50,0">
+        <TextBlock Text="{Binding PageTitle}" FontSize="40" HorizontalAlignment="Center"/>
+        <TextBlock>This application requires the following in order to generate a cover letter:</TextBlock>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBlock Text="&#x2022;" VerticalAlignment="Center" />
+            <TextBlock Text="Template Directory" VerticalAlignment="Center" TextWrapping="Wrap" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBlock Text="&#x2022;" VerticalAlignment="Center" />
+            <TextBlock Text="Output Directory" VerticalAlignment="Center" TextWrapping="Wrap" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBlock Text="&#x2022;" VerticalAlignment="Center" />
+            <TextBlock Text="First Name" VerticalAlignment="Center" TextWrapping="Wrap" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Spacing="5">
+            <TextBlock Text="&#x2022;" VerticalAlignment="Center" />
+            <TextBlock Text="Last Name" VerticalAlignment="Center" TextWrapping="Wrap" />
+        </StackPanel>
+        <TextBlock TextWrapping="Wrap">The template directory must be a directory which holds subdirectories titled after certain templates. For example, a Template Directory can have subdirectories such as "Writer", "Store Clerk", "Assistant Manager", etc.</TextBlock>
+        <TextBlock TextWrapping="Wrap">Both the template and output directories must be absolute paths. No relative paths are allowed.</TextBlock>
+        <TextBlock TextWrapping="Wrap">On success, the output .docx and .pdf files will be in { Output Directory }/{ Company Name }/{ Job Title }. You will be able to access the directory quickly by pressing the "Reveal in File Explorer" button.</TextBlock>
     </StackPanel>
 
 </UserControl>

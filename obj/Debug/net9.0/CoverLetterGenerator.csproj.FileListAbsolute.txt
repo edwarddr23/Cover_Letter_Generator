@@ -76,3 +76,6 @@ G:\PersonalProjects\CoverLetterGenerator\obj\Debug\net9.0\ref\CoverLetterGenerat
 G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\DocumentFormat.OpenXml.dll
 G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\DocumentFormat.OpenXml.Framework.dll
 G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\System.IO.Packaging.dll
+G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\GemBox.Document.dll
+G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\Microsoft.Bcl.Numerics.dll
+G:\PersonalProjects\CoverLetterGenerator\bin\Debug\net9.0\BouncyCastle.Crypto.dll

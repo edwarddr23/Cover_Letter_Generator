@@ -3,7 +3,7 @@
              x:Class="CoverLetterGenerator.App"
              xmlns:local="using:CoverLetterGenerator"
              xmlns:converters="using:CoverLetterGenerator.Converters"
-             RequestedThemeVariant="Default">
+             RequestedThemeVariant="Dark">
              <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 
     <Application.DataTemplates>
@@ -17,5 +17,6 @@
   
     <Application.Styles>
         <FluentTheme />
+		<StyleInclude Source="/Assets/IconStyles.axaml"/>
     </Application.Styles>
 </Application>

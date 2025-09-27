@@ -14,8 +14,8 @@
         <vm:GenerateCoverLetterViewModel/>
     </Design.DataContext>
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10">
-        <TextBlock Text="{Binding PageTitle}" FontSize="20"/>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="700" MinWidth="500" Margin="50,0,50,0">
+        <TextBlock Text="{Binding PageTitle}" FontSize="40" HorizontalAlignment="Center"/>
 
         <!-- Template Names Selection -->
         <TextBlock>Template Names:</TextBlock>
@@ -36,20 +36,21 @@
                 x:Name="DocumentsComboBox"
                 ItemsSource="{Binding TemplateDocuments}"
                 SelectedItem="{Binding SelectedDocument, Mode=TwoWay}"
+                HorizontalAlignment="Stretch"
             />
         </StackPanel>
 
         <!-- Job Source Input -->
         <TextBlock>Job Source:</TextBlock>
-        <TextBox Width="200" Text="{Binding JobSource, Mode=TwoWay}" Watermark="Enter job source"/>
+        <TextBox Text="{Binding JobSource, Mode=TwoWay}" Watermark="Enter job source"/>
 
         <!-- Company Name Input -->
         <TextBlock>Company Name:</TextBlock>
-        <TextBox Width="200" Text="{Binding CompanyName, Mode=TwoWay}" Watermark="Enter company name"/>
+        <TextBox Text="{Binding CompanyName, Mode=TwoWay}" Watermark="Enter company name"/>
 
         <!-- Job Title Input -->
         <TextBlock>Job Title:</TextBlock>
-        <TextBox Width="200" Text="{Binding JobTitle, Mode=TwoWay}" Watermark="Enter job title"/>
+        <TextBox Text="{Binding JobTitle, Mode=TwoWay}" Watermark="Enter job title"/>
 
         <!-- Validation Errors -->
         <StackPanel IsVisible="{Binding Errors.Count, Converter={StaticResource IntToBoolConverter}}}" Spacing="5">
@@ -57,24 +58,54 @@
             <ItemsControl ItemsSource="{Binding Errors}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="models:KeyValueItem">
-                        <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="{Binding Key}" Foreground="Red" FontSize="12"/>
-                            <TextBlock Text="{Binding Value}" Foreground="Red" FontSize="12" TextWrapping="Wrap"/>
-                        </StackPanel>
+                        <TextBlock Text="{Binding Value}" Foreground="Red" FontSize="12" TextWrapping="Wrap"/>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </StackPanel>
 
         <!-- Generate Button -->
-        <Button Command="{Binding GenerateCoverLetterCommand}" Content="Generate Cover Letter" Margin="0,10,0,0"/>
+        <Button
+            Command="{Binding GenerateCoverLetterCommand}"
+            Content="Generate Cover Letter"
+            Margin="0,10,0,0"
+            Padding="20"
+            HorizontalAlignment="Center"
+        />
     
         <!-- Success Message -->
-        <TextBlock Text="{Binding GenerateSuccessfulMessage}" 
-           Foreground="Green"
-           FontWeight="Bold"
-           IsVisible="{Binding GenerateSuccessfulMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
+        <TextBox
+            Text="{Binding GenerateSuccessfulMessage}" 
+            IsReadOnly="True"
+            Foreground="Green"
+            FontWeight="Bold"
+            IsVisible="{Binding GenerateSuccessfulMessage, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
         />
+
+        <!-- Open Word Document Button -->
+        <StackPanel Orientation="Horizontal" Spacing="20" HorizontalAlignment="Center">
+            <Button
+                Command="{Binding OpenWordDocument}"
+                IsVisible="{Binding OutputWordFilePath, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
+                Content="Open Word Document"
+                Padding="20"
+                HorizontalAlignment="Center"
+            />
+            <Button
+                Command="{Binding OpenPDFDocument}"
+                IsVisible="{Binding OutputPDFFilePath, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
+                Content="Open PDF Document"
+                Padding="20"
+                HorizontalAlignment="Center"
+            />
+            <Button
+                Command="{Binding OpenInFileExplorer}"
+                IsVisible="{Binding OutputDirectoryPath, Converter={StaticResource StringNotEmptyToVisibilityConverter}}"
+                Content="Reveal in File Explorer"
+                Padding="20"
+                HorizontalAlignment="Center"
+            />
+        </StackPanel>
 
     </StackPanel>
     

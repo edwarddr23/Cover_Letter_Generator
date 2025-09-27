@@ -10,7 +10,9 @@ using System.Linq;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using System.Diagnostics;
-using Avalonia.Input;
+using System.Globalization;
+using System.Text.RegularExpressions;
+using GemBox.Document;
 
 namespace CoverLetterGenerator.ViewModels;
 
@@ -20,7 +22,7 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
     [ObservableProperty]
     private ObservableCollection<KeyValueItem> _errors = new();
     [ObservableProperty]
-    private ObservableCollection<KeyValueItem> _warnings = new();private string _selectedTemplate = string.Empty;
+    private ObservableCollection<KeyValueItem> _warnings = new(); private string _selectedTemplate = string.Empty;
     public string SelectedTemplate
     {
         get => _selectedTemplate;
@@ -30,6 +32,9 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
             {
                 LoadDocuments();
                 GenerateSuccessfulMessage = "";
+                OutputWordFilePath = "";
+                OutputPDFFilePath = "";
+                OutputDirectoryPath = "";
             }
         }
     }
@@ -52,6 +57,13 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
     private string _generateSuccessfulMessage = string.Empty;
     [ObservableProperty]
     private string _pageTitle = "Generate Cover Letter";
+
+    [ObservableProperty]
+    private string _outputWordFilePath;
+    [ObservableProperty]
+    private string _outputPDFFilePath;
+    [ObservableProperty]
+    private string _outputDirectoryPath;
 
     private readonly ISettingsService _settingsService;
 
@@ -123,63 +135,38 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
         if (missingProps.Any())
         {
             Debug.WriteLine($"The following settings are missing values: {string.Join(", ", missingProps)}");
-            Errors.Add(new KeyValueItem
-            {
-                Key = "Settings",
-                Value = "All settings must be specified before generating a cover letter."
-            });
+            Errors.Add(
+                new KeyValueItem("Settings", "All settings must be specified before generating a cover letter.")
+            );
             return;
         }
 
         string? templatePath = Path.Combine(settings.TemplatesPath, SelectedTemplate);
         string? templateDocPath = Path.Combine(templatePath, SelectedDocument);
 
-        // Template Name Validation.
-        if (string.IsNullOrWhiteSpace(SelectedTemplate))
+        List<KeyValueItem> inputs = new List<KeyValueItem> {
+            new KeyValueItem(SelectedTemplate, "Template"),
+            new KeyValueItem(JobSource, "Job Source"),
+            new KeyValueItem(CompanyName, "Company Name"),
+            new KeyValueItem(JobTitle, "Job Title"),
+            new KeyValueItem(SelectedDocument, "Document"),
+        };
+        string[] textInputFields = { "Job Source", "Company Name", "Job Title" };
+        TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
+
+        foreach (var inp in inputs)
         {
-            Errors.Add(new KeyValueItem
+            if (string.IsNullOrWhiteSpace(inp.Key))
             {
-                Key = "SelectedTemplate",
-                Value = "Template must be specified."
-            });
-        }
-        // Job Source Validation.
-        if (string.IsNullOrWhiteSpace(JobSource))
-        {
-            Errors.Add(new KeyValueItem
+                Errors.Add(new KeyValueItem(inp.Key, $"{inp.Value} must be specified."));
+            }
+            else if (textInputFields.Contains(inp.Value))
             {
-                Key = "JobSource",
-                Value = "Job Source must be specified."
-            });
+                inp.Key = textInfo.ToTitleCase(inp.Key);
+                inp.Key = Regex.Replace(inp.Key, @"\s+", " ");
+            }
         }
-        // Company Name Validation.
-        if (string.IsNullOrWhiteSpace(CompanyName))
-        {
-            Errors.Add(new KeyValueItem
-            {
-                Key = "CompanyName",
-                Value = "Company Name must be specified."
-            });
-        }
-        // Job Title Validation.
-        if (string.IsNullOrWhiteSpace(JobTitle))
-        {
-            Errors.Add(new KeyValueItem
-            {
-                Key = "JobTitle",
-                Value = "Job Title must be specified."
-            });
-        }
-        // Document Name Validation.
-        if (string.IsNullOrWhiteSpace(SelectedDocument))
-        {
-            Errors.Add(new KeyValueItem
-            {
-                Key = "SelectedDocument",
-                Value = "Document must be specified."
-            });
-        }
-        
+
         // If any errors were found, return.
         if (Errors.Count > 0)
         {
@@ -199,33 +186,21 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
                 bool allParametersFound = parameters.All(parameter => innerText.Contains(parameter));
                 if (!allParametersFound)
                 {
-                    Errors.Add(new KeyValueItem
-                    {
-                        Key = "DocumentContents",
-                        Value = $"Document missing parameters. Required parameters are {string.Join(", ", parameters)}"
-                    });
+                    Errors.Add(new KeyValueItem("DocumentContents", $"Document missing parameters. Required parameters are {string.Join(", ", parameters)}"));
                     return;
                 }
 
                 // If the output path already exists, show an error and return.
                 string outputDirPath = Path.Combine(settings.OutputPath, CompanyName, JobTitle);
-                string outputFilePath = Path.Combine(outputDirPath, $"{settings.FirstName} {settings.LastName} Cover Letter.docx");
-                if (Directory.Exists(outputDirPath) && File.Exists(outputFilePath))
+                string outputWordFilePath = Path.Combine(outputDirPath, $"{settings.FirstName} {settings.LastName} Cover Letter.docx");
+                if (Directory.Exists(outputDirPath) && File.Exists(outputWordFilePath))
                 {
-                    Errors.Add(new KeyValueItem
-                    {
-                        Key = "OutputFile",
-                        Value = $"Output file {Path.GetFileName(outputFilePath)} already exists at {outputDirPath}."
-                    });
+                    Errors.Add(new KeyValueItem("OutputFile", $"Output file {Path.GetFileName(outputWordFilePath)} already exists at {outputDirPath}."));
                     return;
                 }
                 else if (Directory.Exists(outputDirPath))
                 {
-                    Warnings.Add(new KeyValueItem
-                    {
-                        Key = "OutputDir",
-                        Value = $"Output directory {Path.GetFileName(outputFilePath)} already exists at {outputDirPath}."
-                    });
+                    Warnings.Add(new KeyValueItem("OutputDir", $"Output directory {Path.GetFileName(outputWordFilePath)} already exists at {outputDirPath}."));
                 }
 
                 // Attempt to create the output directory in question.
@@ -235,28 +210,24 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
                 }
                 catch (Exception exc)
                 {
-                    Errors.Add(new KeyValueItem
-                    {
-                        Key = "OutputDir",
-                        Value = $"Failed to create output directory specified at {outputDirPath}"
-                    });
+                    Errors.Add(new KeyValueItem("OutputDir", $"Failed to create output directory specified at {outputDirPath}"));
                     Debug.WriteLine($"Failed to create output directory specified at {outputDirPath}: {exc}");
                     return;
                 }
 
                 // Copy the template to the output file.
-                File.Copy(templateDocPath, outputFilePath, overwrite: true);
+                File.Copy(templateDocPath, outputWordFilePath, overwrite: true);
 
-                Dictionary<string, string> parameterMap = new Dictionary<string, string>
+                List<KeyValueItem> parameterMap = new List<KeyValueItem>
                 {
-                    { "{JOB SOURCE}", JobSource },
-                    { "{COMPANY NAME}", CompanyName },
-                    { "{FIRST NAME}", settings.FirstName },
-                    { "{LAST NAME}", settings.LastName },
+                    new KeyValueItem("{JOB SOURCE}", JobSource),
+                    new KeyValueItem("{COMPANY NAME}", CompanyName),
+                    new KeyValueItem("{FIRST NAME}", settings.FirstName),
+                    new KeyValueItem("{LAST NAME}", settings.LastName),
                 };
-                using (var outputWordDoc = WordprocessingDocument.Open(outputFilePath, true))
+                using (var outputWordDoc = WordprocessingDocument.Open(outputWordFilePath, true))
                 {
-                    foreach (var paragraph in outputWordDoc.MainDocumentPart.Document.Body.Descendants<Paragraph>())
+                    foreach (var paragraph in outputWordDoc.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Wordprocessing.Paragraph>())
                     {
                         string fullText = string.Concat(paragraph.Descendants<Text>().Select(t => t.Text));
                         bool replaced = false;
@@ -272,49 +243,119 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
 
                         if (replaced)
                         {
-                            var firstRun = paragraph.Descendants<Run>().FirstOrDefault();
-                            Run newRun;
+                            var firstRun = paragraph.Descendants<DocumentFormat.OpenXml.Wordprocessing.Run>().FirstOrDefault();
+                            DocumentFormat.OpenXml.Wordprocessing.Run newRun;
 
                             if (firstRun != null)
                             {
-                                newRun = new Run(firstRun.RunProperties?.CloneNode(true) as RunProperties ?? new RunProperties());
+                                newRun = new DocumentFormat.OpenXml.Wordprocessing.Run(firstRun.RunProperties?.CloneNode(true) as RunProperties ?? new RunProperties());
                             }
                             else
                             {
-                                newRun = new Run();
+                                newRun = new DocumentFormat.OpenXml.Wordprocessing.Run();
                             }
 
                             newRun.AppendChild(new Text(fullText));
-                            paragraph.Descendants<Run>().ToList().ForEach(r => r.Remove());
+                            paragraph.Descendants<DocumentFormat.OpenXml.Wordprocessing.Run>().ToList().ForEach(r => r.Remove());
                             paragraph.AppendChild(newRun);
                         }
                     }
                     outputWordDoc.MainDocumentPart.Document.Save();
                 }
-                string successMessage = $"Generated letter successfuly in {outputFilePath}";
+                string successMessage = $"Generated letter successfully in {outputDirPath}";
                 Debug.WriteLine(successMessage);
                 GenerateSuccessfulMessage = successMessage;
-                // foreach (var text in wordDoc.MainDocumentPart.Document.Body.Descendants<Text>())
-                // {
-                //     foreach (var kvp in parameterMap)
-                //     {
-                //         if (text.Text.Contains(kvp.Key))
-                //         {
-                //             text.Text = text.Text.Replace(kvp.Key, kvp.Value);
-                //         }
-                //     }
-                // }
+
+                // Generate PDF.
+                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                var pdfDocument = DocumentModel.Load(outputWordFilePath);
+                string outputPDFFilePath = outputWordFilePath.Replace(".docx", ".pdf");
+                pdfDocument.Save(outputPDFFilePath);
+
+                // Put output paths in vm variables for later handling.
+                OutputWordFilePath = outputWordFilePath;
+                OutputPDFFilePath = outputPDFFilePath;
+                OutputDirectoryPath = outputDirPath;
             }
         }
         catch (Exception exc)
         {
-            Errors.Add(new KeyValueItem
-            {
-                Key = "DocumentContents",
-                Value = "Failed to read document. Please make sure it is not open in another process."
-            });
+            Errors.Add(new KeyValueItem("DocumentContents", "Failed to read document. Please make sure it is not open in another process."));
             Debug.WriteLine($"Failed to read document: {exc}");
             return;
+        }
+    }
+
+    [RelayCommand]
+    public void OpenWordDocument()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(OutputWordFilePath) || !File.Exists(OutputWordFilePath))
+            {
+                Errors.Add(new KeyValueItem("WordDocument", $"File does not exist: {OutputWordFilePath}"));
+                return;
+            }
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = OutputWordFilePath,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception exc)
+        {
+            string err_msg = $"Failed to open word document at {OutputWordFilePath}";
+            Debug.WriteLine($"{err_msg}: {exc}");
+            Errors.Add(new KeyValueItem("WordDocument", err_msg));
+        }
+    }
+
+    [RelayCommand]
+    public void OpenPDFDocument()
+    {
+        try
+        {
+            if (string.IsNullOrWhiteSpace(OutputPDFFilePath) || !File.Exists(OutputPDFFilePath))
+            {
+                Errors.Add(new KeyValueItem("PDFDocument", $"File does not exist: {OutputPDFFilePath}"));
+                return;
+            }
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = OutputPDFFilePath,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception exc)
+        {
+            string err_msg = $"Failed to open PDF document at {OutputPDFFilePath}";
+            Debug.WriteLine($"{err_msg}: {exc}");
+            Errors.Add(new KeyValueItem("PDFDocument", err_msg));
+        }
+    }
+
+    [RelayCommand]
+    public void OpenInFileExplorer()
+    {
+        try
+        {
+            // if (string.IsNullOrWhiteSpace(OutputDirectoryPath) || !File.Exists(OutputDirectoryPath))
+            // {
+            //     Errors.Add(new KeyValueItem("OutputDirectory", $"File does not exist: {OutputDirectoryPath}"));
+            //     return;
+            // }
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = OutputDirectoryPath,
+                UseShellExecute = true,
+                Verb = "open"
+            });
+        }
+        catch (Exception exc)
+        {
+            string err_msg = $"Failed to open output directory at {OutputDirectoryPath}";
+            Debug.WriteLine($"{err_msg}: {exc}");
+            Errors.Add(new KeyValueItem("OutputDirectory", err_msg));
         }
     }
 }

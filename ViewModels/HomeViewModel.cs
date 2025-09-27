@@ -5,5 +5,5 @@ namespace CoverLetterGenerator.ViewModels;
 public partial class HomeViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private string _pageTitle = "Home Page";
+    private string _pageTitle = "Home";
 }
