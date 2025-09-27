@@ -14,7 +14,7 @@
         <vm:GenerateCoverLetterViewModel/>
     </Design.DataContext>
 
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="700" MinWidth="500" Margin="50,0,50,0">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="700" MinWidth="500" Margin="50">
         <TextBlock Text="{Binding PageTitle}" FontSize="40" HorizontalAlignment="Center"/>
 
         <!-- Template Names Selection -->
@@ -54,7 +54,7 @@
 
         <!-- Validation Errors -->
         <StackPanel IsVisible="{Binding Errors.Count, Converter={StaticResource IntToBoolConverter}}}" Spacing="5">
-            <TextBlock Text="Validation Errors:" Foreground="Red"/>
+            <TextBlock Text="Errors:" Foreground="Red"/>
             <ItemsControl ItemsSource="{Binding Errors}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="models:KeyValueItem">

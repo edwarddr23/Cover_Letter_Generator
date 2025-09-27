@@ -59,11 +59,11 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
     private string _pageTitle = "Generate Cover Letter";
 
     [ObservableProperty]
-    private string _outputWordFilePath;
+    private string _outputWordFilePath = string.Empty;
     [ObservableProperty]
-    private string _outputPDFFilePath;
+    private string _outputPDFFilePath = string.Empty;
     [ObservableProperty]
-    private string _outputDirectoryPath;
+    private string _outputDirectoryPath = string.Empty;
 
     private readonly ISettingsService _settingsService;
 
@@ -151,19 +151,27 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
             new KeyValueItem(JobTitle, "Job Title"),
             new KeyValueItem(SelectedDocument, "Document"),
         };
-        string[] textInputFields = { "Job Source", "Company Name", "Job Title" };
+        List<string> textInputs = new() { "Job Source", "Company Name", "Job Title" };
         TextInfo textInfo = CultureInfo.CurrentCulture.TextInfo;
 
+        // Validate the inputs.
         foreach (var inp in inputs)
         {
             if (string.IsNullOrWhiteSpace(inp.Key))
             {
                 Errors.Add(new KeyValueItem(inp.Key, $"{inp.Value} must be specified."));
             }
-            else if (textInputFields.Contains(inp.Value))
+            else if (textInputs.Contains(inp.Value))
             {
-                inp.Key = textInfo.ToTitleCase(inp.Key);
-                inp.Key = Regex.Replace(inp.Key, @"\s+", " ");
+                string cleaned = inp.Key.Trim();
+                cleaned = textInfo.ToTitleCase(cleaned);
+                cleaned = Regex.Replace(cleaned, @"\s+", " ");
+
+                var prop = this.GetType().GetProperty(inp.Value.Replace(" ", ""));
+                if (prop != null && prop.CanWrite)
+                {
+                    prop.SetValue(this, cleaned);
+                }
             }
         }
 
@@ -182,6 +190,11 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
             {
                 // Validate that all parameters are in the template in question.
                 var innerText = wordDoc?.MainDocumentPart?.Document?.Body?.InnerText;
+                if (innerText == null)
+                {
+                    Errors.Add(new KeyValueItem("DocumentContents", "Document body is empty or invalid."));
+                    return;
+                }
                 List<string> parameters = new List<string>() { "{JOB SOURCE}", "{COMPANY NAME}", "{FIRST NAME}", "{LAST NAME}" };
                 bool allParametersFound = parameters.All(parameter => innerText.Contains(parameter));
                 if (!allParametersFound)
@@ -227,7 +240,19 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
                 };
                 using (var outputWordDoc = WordprocessingDocument.Open(outputWordFilePath, true))
                 {
-                    foreach (var paragraph in outputWordDoc.MainDocumentPart.Document.Body.Descendants<DocumentFormat.OpenXml.Wordprocessing.Paragraph>())
+                    var mainDocument = outputWordDoc.MainDocumentPart?.Document;
+                    if (mainDocument == null)
+                    {
+                        Errors.Add(new KeyValueItem("DocumentContents", "Main Document part of the word document is invalid."));
+                        return;
+                    }
+                    var paragraphs = mainDocument.Body?.Descendants<DocumentFormat.OpenXml.Wordprocessing.Paragraph>();
+                    if (paragraphs == null)
+                    {
+                        Errors.Add(new KeyValueItem("DocumentContents", "Body of Main Document part of the word document is invalid."));
+                        return;
+                    }
+                    foreach (var paragraph in paragraphs)
                     {
                         string fullText = string.Concat(paragraph.Descendants<Text>().Select(t => t.Text));
                         bool replaced = false;
@@ -260,7 +285,7 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
                             paragraph.AppendChild(newRun);
                         }
                     }
-                    outputWordDoc.MainDocumentPart.Document.Save();
+                    mainDocument.Save();
                 }
                 string successMessage = $"Generated letter successfully in {outputDirPath}";
                 Debug.WriteLine(successMessage);

@@ -81,7 +81,7 @@ public partial class SettingsViewModel : ViewModelBase
         foreach (var prop in settings.GetType().GetProperties())
         {
             object? value = prop.GetValue(settings);
-            SettingsList.Add(new KeyValueItem(parameterMap.FirstOrDefault(kv => kv.Key == prop.Name).Value, value?.ToString() ?? string.Empty));
+            SettingsList.Add(new KeyValueItem(parameterMap.Single(kv => kv.Key == prop.Name).Value, value?.ToString() ?? string.Empty));
         }
     }
 

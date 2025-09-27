@@ -51,6 +51,9 @@ public partial class MainWindowViewModel : ViewModelBase
         _generateCoverLetterViewModel = new GenerateCoverLetterViewModel(settingsService);
         _settingsViewModel = new SettingsViewModel(settingsService, dialogService);
         CurrentViewModel = _homeViewModel;
+
+        // Default to home directory.
+        SelectedMenuEntry = MenuEntries[0];
     }
 
     [RelayCommand]

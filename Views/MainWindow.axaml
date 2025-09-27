@@ -63,22 +63,6 @@
                     ItemsSource="{Binding MenuEntries}"
                     SelectedItem="{Binding SelectedMenuEntry}"
                 >
-                    <!-- <ListBoxItem Padding="10" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Center">
-                            <Viewbox Width="30" Height="30">
-                                <PathIcon Data="{StaticResource home_regular}"/>
-                            </Viewbox>
-                            <TextBlock Margin="20,0,0,0" FontSize="20" VerticalAlignment="Center">Home</TextBlock>
-                        </StackPanel>
-                    </ListBoxItem>
-                    <ListBoxItem Padding="10" VerticalAlignment="Center">
-                        <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Center">
-                            <Viewbox Width="30" Height="30">
-                                <PathIcon Data="{StaticResource home_regular}"/>
-                            </Viewbox>
-                            <TextBlock Margin="20,0,0,0" FontSize="20" VerticalAlignment="Center">Generate Letter</TextBlock>
-                        </StackPanel>
-                    </ListBoxItem> -->
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="vm:ListItemTemplate">
                             <StackPanel

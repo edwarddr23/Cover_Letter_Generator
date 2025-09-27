@@ -11,7 +11,7 @@
     <Design.DataContext>
         <vm:SettingsViewModel/>
     </Design.DataContext>
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="700" MinWidth="500" Margin="50,0,50,0">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="700" MinWidth="500" Margin="50">
         <!-- Page Title -->
         <TextBlock Text="{Binding PageTitle}" HorizontalAlignment="Center" FontSize="40"/>
         
@@ -33,12 +33,12 @@
 
         <!-- Validation Errors -->
         <StackPanel IsVisible="{Binding Errors.Count, Converter={StaticResource IntToBoolConverter}}" Spacing="5">
-            <TextBlock Text="Validation Errors:" Foreground="Red"/>
+            <TextBlock Text="Errors:" Foreground="Red"/>
             <ItemsControl ItemsSource="{Binding Errors}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate DataType="models:KeyValueItem">
                         <StackPanel Orientation="Horizontal" Spacing="10">
-                            <TextBlock Text="{Binding Key}" Foreground="Red"/>
+                            <!-- <TextBlock Text="{Binding Key}" Foreground="Red"/> -->
                             <TextBlock Text="{Binding Value}" Foreground="Red" TextWrapping="Wrap"/>
                         </StackPanel>
                     </DataTemplate>

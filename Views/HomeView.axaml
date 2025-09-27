@@ -4,9 +4,9 @@
              x:DataType="vm:HomeViewModel"
              xmlns:vm="using:CoverLetterGenerator.ViewModels">
 
-    <StackPanel ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="700" MinWidth="500" Margin="50,0,50,0">
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Spacing="10" MaxWidth="700" MinWidth="500" Margin="50">
         <TextBlock Text="{Binding PageTitle}" FontSize="40" HorizontalAlignment="Center"/>
-        <TextBlock>This application requires the following in order to generate a cover letter:</TextBlock>
+        <TextBlock>This application requires the following settings to be defined in order to generate a cover letter:</TextBlock>
         <StackPanel Orientation="Horizontal" Spacing="5">
             <TextBlock Text="&#x2022;" VerticalAlignment="Center" />
             <TextBlock Text="Template Directory" VerticalAlignment="Center" TextWrapping="Wrap" />
@@ -26,6 +26,8 @@
         <TextBlock TextWrapping="Wrap">The template directory must be a directory which holds subdirectories titled after certain templates. For example, a Template Directory can have subdirectories such as "Writer", "Store Clerk", "Assistant Manager", etc.</TextBlock>
         <TextBlock TextWrapping="Wrap">Both the template and output directories must be absolute paths. No relative paths are allowed.</TextBlock>
         <TextBlock TextWrapping="Wrap">On success, the output .docx and .pdf files will be in { Output Directory }/{ Company Name }/{ Job Title }. You will be able to access the directory quickly by pressing the "Reveal in File Explorer" button.</TextBlock>
+        <TextBlock TextWrapping="Wrap">Note that for all input text boxes except for the template and output paths will be normalized. This means that for fieldds such as the First Name and Last Name fields in settings, the inputs are automatically parsed to have title casing (i.e. "joHn" will be saved as "John" and "De la Cruz" will be saved as "De La Cruz") and are trimmed of leading and trailing whitespece (e.g. "  John " will be taken as "John").</TextBlock>
+        <TextBlock TextWrapping="Wrap">Settings must be saved after making changes using the "Save Settings" button or changes will not persist.</TextBlock>
     </StackPanel>
 
 </UserControl>
