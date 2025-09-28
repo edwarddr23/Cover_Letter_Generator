@@ -1,2 +1,5 @@
 bin/
 obj/
+publish/
+
+build-all.ps1
