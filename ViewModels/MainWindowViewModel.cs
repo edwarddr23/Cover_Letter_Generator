@@ -15,6 +15,8 @@ namespace CoverLetterGenerator.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty]
+    private string _appVersion = "v0.1.1";
+    [ObservableProperty]
     private bool _isPaneOpen = true;
     [ObservableProperty]
     private ListItemTemplate _selectedMenuEntry;

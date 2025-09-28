@@ -7,7 +7,12 @@
         x:Class="CoverLetterGenerator.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
-        Title="CoverLetterGenerator">
+        Title="CoverLetterGenerator"
+        Width="1200"
+        Height="600"
+        MinWidth="800"
+        MinHeight="400"
+>
 
     <Design.DataContext>
         <vm:MainWindowViewModel/>
@@ -25,21 +30,19 @@
         </Style>
     </Window.Styles>
 
-    <SplitView
-        IsPaneOpen="{Binding IsPaneOpen}"
-        OpenPaneLength="320"
-        CompactPaneLength="80"
-        DisplayMode="CompactInline"
-        PaneBackground="#1E1E1E"
-    >
-        <SplitView.Pane>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+    <Grid>
+        <SplitView
+            IsPaneOpen="{Binding IsPaneOpen}"
+            OpenPaneLength="320"
+            CompactPaneLength="80"
+            DisplayMode="CompactInline"
+            PaneBackground="#1E1E1E"
+        >
+            <SplitView.Pane>
+            <DockPanel LastChildFill="True">
+                <!-- Button at top -->
                 <Button
-                    Grid.Row="0"
+                    DockPanel.Dock="Top"
                     Command="{Binding OpenPaneCommand}"
                     Background="#1E1E1E"
                     HorizontalAlignment="Left"
@@ -54,8 +57,9 @@
                         Height="35"
                     />    
                 </Button>
+
+                <!-- Menu ListBox fills remaining space -->
                 <ListBox
-                    Grid.Row="1"
                     Background="#1E1E1E"
                     Foreground="White"
                     Padding="0"
@@ -65,33 +69,37 @@
                 >
                     <ListBox.ItemTemplate>
                         <DataTemplate DataType="vm:ListItemTemplate">
-                            <StackPanel
-                                Orientation="Horizontal"
-                                Margin="0"
-                                VerticalAlignment="Center"
-                                HorizontalAlignment="Left"
-                            >
+                            <StackPanel Orientation="Horizontal" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Left">
                                 <Viewbox Width="43" Height="43" Margin="6,10,0,0">
                                     <PathIcon Data="{Binding Icon}"/>
                                 </Viewbox>
-                                <TextBlock
-                                    Margin="20,10,0,0"
-                                    FontSize="20"
-                                    VerticalAlignment="Center"
-                                    Text="{Binding Label}"
-                                />
+                                <TextBlock Margin="20,10,0,0" FontSize="20" VerticalAlignment="Center" Text="{Binding Label}" />
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </Grid>
+            </DockPanel>
         </SplitView.Pane>
 
-        <SplitView.Content>
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                <ContentControl Background="#2d2d2d" Content="{Binding CurrentViewModel}"/>
-            </ScrollViewer>
-        </SplitView.Content>
-    </SplitView>
+
+            <SplitView.Content>
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <ContentControl Background="#2d2d2d" Content="{Binding CurrentViewModel}"/>
+                </ScrollViewer>
+            </SplitView.Content>
+        </SplitView>
+
+        <!-- Version text overlay -->
+        <TextBlock
+            Text="{Binding AppVersion}"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Margin="10,10,20,20"
+            FontSize="15"
+            Foreground="LightGray"
+            Background="#33000000"
+            Padding="4"
+        />
+    </Grid>
     
 </Window>
