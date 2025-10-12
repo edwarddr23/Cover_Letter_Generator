@@ -223,7 +223,7 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
                 }
                 catch (Exception exc)
                 {
-                    Errors.Add(new KeyValueItem("OutputDir", $"Failed to create output directory specified at {outputDirPath}"));
+                    Errors.Add(new KeyValueItem("OutputDir", $"Failed to create output directory specified at {outputDirPath}: {exc}"));
                     Debug.WriteLine($"Failed to create output directory specified at {outputDirPath}: {exc}");
                     return;
                 }
@@ -292,20 +292,36 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
                 GenerateSuccessfulMessage = successMessage;
 
                 // Generate PDF.
-                ComponentInfo.SetLicense("FREE-LIMITED-KEY");
-                var pdfDocument = DocumentModel.Load(outputWordFilePath);
-                string outputPDFFilePath = outputWordFilePath.Replace(".docx", ".pdf");
-                pdfDocument.Save(outputPDFFilePath);
+                try
+                {
+                    ComponentInfo.SetLicense("FREE-LIMITED-KEY");
+                    // Fallback fonts if the font found in the template is not supported on the client system.
+                    string fontsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "fonts");
+                    if (Directory.Exists(fontsDirectory))
+                    {
+                        FontSettings.FontsBaseDirectory = fontsDirectory;
+                    }
+
+                    var pdfDocument = DocumentModel.Load(outputWordFilePath);
+                    string outputPDFFilePath = outputWordFilePath.Replace(".docx", ".pdf");
+                    pdfDocument.Save(outputPDFFilePath);
+                    OutputPDFFilePath = outputPDFFilePath;
+                }
+                catch(Exception pdfExc)
+                {
+                    Errors.Add(new KeyValueItem("PDFGeneration", $"PDF generation failed: {pdfExc.Message}"));
+                    Debug.WriteLine($"Failed to read document: {pdfExc}");
+                    return;
+                }
 
                 // Put output paths in vm variables for later handling.
                 OutputWordFilePath = outputWordFilePath;
-                OutputPDFFilePath = outputPDFFilePath;
                 OutputDirectoryPath = outputDirPath;
             }
         }
         catch (Exception exc)
         {
-            Errors.Add(new KeyValueItem("DocumentContents", "Failed to read document. Please make sure it is not open in another process."));
+            Errors.Add(new KeyValueItem("DocumentContents", $"Failed to read document. Please make sure it is not open in another process: {exc.Message}"));
             Debug.WriteLine($"Failed to read document: {exc}");
             return;
         }
