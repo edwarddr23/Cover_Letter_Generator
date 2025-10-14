@@ -296,7 +296,7 @@ public partial class GenerateCoverLetterViewModel : ViewModelBase
                 {
                     ComponentInfo.SetLicense("FREE-LIMITED-KEY");
                     // Fallback fonts if the font found in the template is not supported on the client system.
-                    string fontsDirectory = Path.Combine(Directory.GetCurrentDirectory(), "fonts");
+                    string fontsDirectory = Path.Combine(AppContext.BaseDirectory, "fonts");
                     if (Directory.Exists(fontsDirectory))
                     {
                         FontSettings.FontsBaseDirectory = fontsDirectory;
