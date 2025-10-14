@@ -15,7 +15,7 @@ namespace CoverLetterGenerator.ViewModels;
 public partial class MainWindowViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private string _appVersion = "v0.1.2";
+    private string _appVersion = "v0.1.3";
     [ObservableProperty]
     private bool _isPaneOpen = true;
     [ObservableProperty]
